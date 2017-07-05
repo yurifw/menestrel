@@ -1,5 +1,6 @@
 import os
 
+import Mp3File
 from datasources import DataSource
 
 
@@ -26,19 +27,19 @@ class FileLister(object):
             if not file.endswith("mp3"):
                 continue
             path = albumPath+"/"+file
-            print path
-            artist = path.split("/")[-3]
-            title = file.split(".")[-2].split("-")[-1].lstrip()
-            album = path.split("/")[-2].split("-")[-2].rstrip()
-            track_num = file.split(".")[-2].split("-")[-2].rstrip()
-            year = path.split("/")[-2].split("-")[-1].lstrip()
-            genre = "Rock"
-            lyrics = dataSource.grabLyric(artist, title)
-            cover = dataSource.grabAlbumCover(artist, album)
 
-            mp3 = {"path":path, "artist":artist, "title":title, "album":album, "track_num":track_num,
-               "year":year,"genre":genre, "lyrics":lyrics, "cover":cover}
-            files.append(mp3)
+            file = Mp3File.Mp3File()
+            file.path =  path
+            file.artist = path.split("/")[-3]
+            file.title = file.split(".")[-2].split("-")[-1].lstrip()
+            file.album = path.split("/")[-2].split("-")[-2].rstrip()
+            file.track_num = file.split(".")[-2].split("-")[-2].rstrip()
+            file.year = path.split("/")[-2].split("-")[-1].lstrip()
+            file.genre = "Rock"
+            file.lyrics = dataSource.grabLyric(file.artist, file.title)
+            file.cover = dataSource.grabAlbumCover(file.artist, file.album)
+
+            files.append(file)
         dataSource.quit()
         return files
 

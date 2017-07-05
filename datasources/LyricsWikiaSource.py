@@ -11,8 +11,12 @@ class LyricsWikiaSource(DataSource):
         return lyrics
 
     def grabAlbumCover(self, artist, album):
-
         artist = artist.replace(" ","_")
+
+        for cached in self.cache:
+            if artist+album in cached.keys():
+                return cached[artist+album]
+
         url = "http://lyrics.wikia.com/wiki/"+artist
         self.crawler.get(url)
         headlines = self.crawler.find_elements_by_class_name("mw-headline")
@@ -25,4 +29,5 @@ class LyricsWikiaSource(DataSource):
                     a = div.find_element_by_tag_name("a")
                     response = urllib2.urlopen(a.get_attribute("href"))
                     imagedata = response.read()
+                    self.cache.append({artist+album:imagedata})
                     return imagedata

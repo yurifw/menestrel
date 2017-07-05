@@ -12,6 +12,7 @@ class DataSource(object):
 
     def __init__(self):
         self.crawler = webdriver.PhantomJS(executable_path='/var/www/html/neatcomics-scrapper/selenium-driver/phantomjs')
+        self.cache = []  # list of cached data, it is here mainly to store album covers
 
     def grabLyric(self, artist, title):
         raise NotImplementedError("Subclasses must override grabLyric method")

@@ -28,18 +28,18 @@ class FileLister(object):
                 continue
             path = albumPath+"/"+file
 
-            file = Mp3File.Mp3File()
-            file.path =  path
-            file.artist = path.split("/")[-3]
-            file.title = file.split(".")[-2].split("-")[-1].lstrip()
-            file.album = path.split("/")[-2].split("-")[-2].rstrip()
-            file.track_num = file.split(".")[-2].split("-")[-2].rstrip()
-            file.year = path.split("/")[-2].split("-")[-1].lstrip()
-            file.genre = "Rock"
-            file.lyrics = dataSource.grabLyric(file.artist, file.title)
-            file.cover = dataSource.grabAlbumCover(file.artist, file.album)
+            mp3 = Mp3File.Mp3File()
+            mp3.path = path
+            mp3.artist = path.split("/")[-3]
+            mp3.title = path.split(".")[-2].split("-")[-1].lstrip()
+            mp3.album = path.split("/")[-2].split("-")[-2].rstrip()
+            mp3.track_num = file.split(".")[-2].split("-")[-2].rstrip()
+            mp3.year = path.split("/")[-2].split("-")[-1].lstrip()
+            mp3.genre = "Rock"
+            mp3.lyrics = dataSource.grabLyric(mp3.artist, mp3.title)
+            mp3.cover = dataSource.grabAlbumCover(mp3.artist, mp3.album)
 
-            files.append(file)
+            files.append(mp3)
         dataSource.quit()
         return files
 

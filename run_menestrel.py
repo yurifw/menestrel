@@ -7,7 +7,6 @@ lister = FileLister.FileLister()
 files = lister.list()
 setter = Eyed3Setter()
 for file in files:
-    print file
     setter.setTags(file)
 
 

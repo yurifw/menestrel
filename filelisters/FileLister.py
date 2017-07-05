@@ -6,18 +6,7 @@ from datasources import DataSource
 
 class FileLister(object):
 
-    # All methods starting with list should return a list of dictionaries with the following template:
-    # {
-    #   path : "path to the mp3 file",
-    #   artist : "artist name",
-    #   title : "title of the song",
-    #   album : "album where this song is",
-    #   track_num : (int) number of this track,
-    #   year : "the year this song was released (YYYY)
-    #   genre : "this song genre"
-    #   lyrics : "the lyrics for this song"
-    #   cover : "the front cover of the album this song appears in"
-    # }
+    # All methods starting with list should return a list of instances of Mp3File
     def listArtistAlbumSong(self):
 
         albumPath = raw_input("enter the absolute path to your album folder:\n")

@@ -23,6 +23,7 @@ The following ID3 tags are supported:
 
 The script currently supports scraping from the following websites:
 * http://lyrics.wikia.com/wiki/Lyrics_Wiki
+* http://www.azlyrics.com
 
 The Following directory structures are supported:
 * /path_to_my_music_folder/{artist}/{album}-{year}/{track number}-{track title}.mp3

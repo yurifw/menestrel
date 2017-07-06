@@ -1,8 +1,17 @@
 import os
 
 import Mp3File
-from datasources import DataSource
+from datasources import DataSource, LyricsWikiaSource, AZLyricsSource
 
+
+
+def getInstance(source):
+    instance = None
+    if source == 1:
+        instance = DataSource.DataSource(LyricsWikiaSource.LyricsWikiaSource())
+    if source == 2:
+        instance = DataSource.DataSource(AZLyricsSource.AZLyricsSource())
+    return instance
 
 class FileLister(object):
 
@@ -11,7 +20,7 @@ class FileLister(object):
 
         albumPath = raw_input("enter the absolute path to your album folder:\n")
         files=[]
-        dataSource = DataSource.getInstance(1)
+        dataSource = getInstance(2)
         for file in os.listdir(albumPath):
             if not file.endswith("mp3"):
                 continue
@@ -36,10 +45,10 @@ class FileLister(object):
         while True:
             print "How are you MP3's organized?"
             print "1 - /path_to_my_music_folder/{artist}/{album}-{year}/{track number}-{track title}.mp3"
-            print "2 - Quit"
-            print "to request another method, go to the project page at and create an issue"
+            print "0 - Quit"
+            print "to request another method, go to the project page at https://github.com/yurifw/menestrel and create an issue"
             option = raw_input()
             if option == "1":
                 return self.listArtistAlbumSong()
-            if option == "2":
+            if option == "0":
                 quit()

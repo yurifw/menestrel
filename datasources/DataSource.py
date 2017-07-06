@@ -1,25 +1,15 @@
-from selenium import webdriver
-from selenium.common import exceptions
-import LyricsWikiaSource
 
-def getInstance(source):
-    instance = None
-    if source == 1:
-        instance = LyricsWikiaSource.LyricsWikiaSource()
-    return instance
 
 class DataSource(object):
 
-    def __init__(self):
-        self.crawler = webdriver.PhantomJS(executable_path='/var/www/html/neatcomics-scrapper/selenium-driver/phantomjs')
-        self.cache = []  # list of cached data, it is here mainly to store album covers
+    def __init__(self, source):
+        self.source = source
 
     def grabLyric(self, artist, title):
-        raise NotImplementedError("Subclasses must override grabLyric method")
+        return self.source.grabLyric(artist, title)
 
-    # returns an url to the album cover
     def grabAlbumCover(self, artist, album):
-        raise NotImplementedError("Subclasses must override grabAlbumCover method")
+        return self.source.grabAlbumCover(artist, album)
 
     def quit(self):
-        self.crawler.quit()
+        self.source.quit()

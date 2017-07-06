@@ -1,9 +1,16 @@
-from DataSource import DataSource
+from selenium import webdriver
+from selenium.common import exceptions
 import time
 import urllib2
 
-class LyricsWikiaSource(DataSource):
+class LyricsWikiaSource():
+
+    def __init__(self):
+        self.crawler = webdriver.PhantomJS(executable_path='/var/www/html/neatcomics-scrapper/selenium-driver/phantomjs')
+        self.cache = []
+
     def grabLyric(self, artist, title):
+        print "scraping Lyrics Wikia for \"{}\" lyrics".format(title)
         title = title.replace(" ", "_")
         url = "http://lyrics.wikia.com/wiki/"+artist+":"+title
         self.crawler.get(url)
@@ -11,10 +18,12 @@ class LyricsWikiaSource(DataSource):
         return lyrics
 
     def grabAlbumCover(self, artist, album):
+        print "scraping Lyrics Wikia for \"{}\" artwork".format(album)
         artist = artist.replace(" ","_")
 
         for cached in self.cache:
             if artist+album in cached.keys():
+                print "found artwork in cache"
                 return cached[artist+album]
 
         url = "http://lyrics.wikia.com/wiki/"+artist
@@ -31,3 +40,6 @@ class LyricsWikiaSource(DataSource):
                     imagedata = response.read()
                     self.cache.append({artist+album:imagedata})
                     return imagedata
+
+    def quit(self):
+        self.crawler.quit()

@@ -14,7 +14,7 @@ class LyricsWikiaSource():
         title = title.replace(" ", "_")
         url = "http://lyrics.wikia.com/wiki/"+artist+":"+title
         self.crawler.get(url)
-        lyrics = self.crawler.find_element_by_class_name("lyricbox").text
+        lyrics = self.crawler.find_element_by_xpath("id('mw-content-text')/div[2]").text
         return lyrics
 
     def grabAlbumCover(self, artist, album):

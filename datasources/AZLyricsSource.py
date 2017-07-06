@@ -1,5 +1,6 @@
 from selenium import webdriver
 from selenium.common import exceptions
+import re
 
 from datasources import LyricsWikiaSource
 
@@ -11,8 +12,9 @@ class AZLyricsSource():
 
     def grabLyric(self, artist, title):
         print "scraping AZLyrics for \"{}\" lyrics".format(title)
-        title = title.lower().replace(" ", "").replace("(","").replace(")","").replace("'","")
-        artist = artist.lower().replace(" ", "")
+        regex = re.compile('[^a-zA-Z0-9]')
+        title = regex.sub('',title).lower()
+        artist = regex.sub('',artist).lower()
         url = "http://www.azlyrics.com/lyrics/"+artist+"/"+title+".html"
         self.crawler.get(url)
         div = self.crawler.find_element_by_xpath("/html/body/div[3]/div/div[2]/div[5]")

@@ -5,6 +5,7 @@ class Eyed3Setter(Id3Setter):
 
     def setTags(self, file):
         track = eyed3.load(file.path)
+        track.initTag()
         track.tag.artist = unicode(file.artist)
         track.tag.title = unicode(file.title)
         track.tag.album = unicode(file.album)

@@ -7,8 +7,8 @@ print "btw, you should do the same thing if you want to request a feature"
 print "now let's get started"
 print "---------------------"
 
-lister = FileLister.FileLister()
-files = lister.list()
+lister = FileLister.chooseLister()
+files = lister.listFiles()
 setter = Eyed3Setter()
 print "saving the new tags to the files"
 for file in files:

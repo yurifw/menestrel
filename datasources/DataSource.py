@@ -1,4 +1,4 @@
-from datasources import LyricsWikiaSource, AZLyricsSource
+from datasources import LyricsWikiaSource, AZLyricsSource, LetrasMusSource
 
 def getInstance(source):
     instance = None
@@ -6,6 +6,8 @@ def getInstance(source):
         instance = DataSource(LyricsWikiaSource.LyricsWikiaSource())
     if source == 2:
         instance = DataSource(AZLyricsSource.AZLyricsSource())
+    if source == 3:
+        instance = DataSource(LetrasMusSource.LetrasMusSource())
     return instance
 
 class DataSource(object):

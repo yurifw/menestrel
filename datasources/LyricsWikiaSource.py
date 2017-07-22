@@ -29,6 +29,7 @@ class LyricsWikiaSource():
         url = "http://lyrics.wikia.com/wiki/"+artist
         self.crawler.get(url)
         headlines = self.crawler.find_elements_by_class_name("mw-headline")
+        imagedata = None
         for h in headlines:
             for child in h.find_elements_by_css_selector("*"):  # gets all children
                 if album in child.get_attribute("title"):
@@ -38,8 +39,13 @@ class LyricsWikiaSource():
                     a = div.find_element_by_tag_name("a")
                     response = urllib2.urlopen(a.get_attribute("href"))
                     imagedata = response.read()
-                    self.cache.append({artist+album:imagedata})
-                    return imagedata
+                else:
+                    print "sorry, I could not scrape LyricsWikia for the artwork"
+                    link = raw_input("enter the url for the image:\n")
+                    response = urllib2.urlopen(link)
+                    imagedata = response.read()
+                self.cache.append({artist+album:imagedata})
+                return imagedata
 
     def quit(self):
         self.crawler.quit()

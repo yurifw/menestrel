@@ -18,6 +18,8 @@ class LetrasMusSource():
         artist = regex.sub('', artist).lower()
         url = "https://www.letras.mus.br/" + artist + "/" + title
         self.crawler.get(url)
+        if not self.crawler.current_url == url:
+            raise exceptions.NoSuchElementException
         div = self.crawler.find_element_by_xpath("id('js-lyric-cnt')/div[3]/div[2]/article")
         lyrics = div.text
         return lyrics

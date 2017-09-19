@@ -1,14 +1,15 @@
 from datasources import DataSource
 import os
 import Mp3File
-
+import selenium
+import sys
 
 class ArtistAlbumLister(object):
 
     def listFiles(self):
         albumPath = raw_input("enter the absolute path to your album folder:\n")
         files = []
-        dataSource = DataSource.getInstance(2)
+        dataSources = DataSource.getInstances()
         for file in os.listdir(albumPath):
             if not file.endswith("mp3"):
                 continue
@@ -23,11 +24,22 @@ class ArtistAlbumLister(object):
             mp3.track_num = data['track_num']
             mp3.year = data['year']
             mp3.genre = "Rock"
-            mp3.lyrics = dataSource.grabLyric(mp3.artist, mp3.title)
-            mp3.cover = dataSource.grabAlbumCover(mp3.artist, mp3.album)
+
+            for i, ds in enumerate(dataSources):
+                try:
+                    mp3.lyrics = ds.grabLyric(mp3.artist, mp3.title)
+                    break
+                except selenium.common.exceptions.NoSuchElementException:
+                    if i == len(dataSources)-1:
+                        print "did not find lyrics for this song, please request a new datasource"
+                        sys.exit()
+                    print "did not find lyric in data source, trying in the next one"
+
+            mp3.cover = ds.grabAlbumCover(mp3.artist, mp3.album)
 
             files.append(mp3)
-        dataSource.quit()
+        for ds in dataSources:
+            ds.quit()
         return files
 
     # filename = full path of the file.

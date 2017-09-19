@@ -10,6 +10,13 @@ def getInstance(source):
         instance = DataSource(LetrasMusSource.LetrasMusSource())
     return instance
 
+def getInstances():
+    instances = []
+    instances.append(DataSource(LyricsWikiaSource.LyricsWikiaSource()))
+    instances.append(DataSource(AZLyricsSource.AZLyricsSource()))
+    instances.append(DataSource(LetrasMusSource.LetrasMusSource()))
+    return instances
+
 class DataSource(object):
 
     def __init__(self, source):

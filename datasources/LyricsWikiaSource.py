@@ -34,7 +34,7 @@ class LyricsWikiaSource():
             if album.replace(" ", "_") not in str(h.get_attribute("id")):
                 continue
             for child in h.find_elements_by_css_selector("*"):  # gets all children
-                if album in child.get_attribute("title").replace(artist+":",""):
+                if album in child.get_attribute("title"):
                     self.crawler.get(child.get_attribute("href"))
                     time.sleep(0.5)
                     div = self.crawler.find_element_by_class_name("plainlinks")

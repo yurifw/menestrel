@@ -31,21 +31,26 @@ class LyricsWikiaSource():
         headlines = self.crawler.find_elements_by_class_name("mw-headline")
         imagedata = None
         for h in headlines:
+            if album.replace(" ", "_") not in str(h.get_attribute("id")):
+                continue
             for child in h.find_elements_by_css_selector("*"):  # gets all children
-                if album in child.get_attribute("title"):
+                if album in child.get_attribute("title").replace(artist+":",""):
                     self.crawler.get(child.get_attribute("href"))
                     time.sleep(0.5)
                     div = self.crawler.find_element_by_class_name("plainlinks")
                     a = div.find_element_by_tag_name("a")
                     response = urllib2.urlopen(a.get_attribute("href"))
                     imagedata = response.read()
-                else:
-                    print "sorry, I could not scrape LyricsWikia for the artwork"
-                    link = raw_input("enter the url for the image:\n")
-                    response = urllib2.urlopen(link)
-                    imagedata = response.read()
-                self.cache.append({artist+album:imagedata})
-                return imagedata
+                    self.cache.append({artist+album:imagedata})
+                    return imagedata
+
+
+        print "sorry, I could not scrape LyricsWikia for the artwork"
+        link = raw_input("enter the url for the image:\n")
+        response = urllib2.urlopen(link)
+        imagedata = response.read()
+        self.cache.append({artist+album:imagedata})
+        return imagedata
 
     def quit(self):
         self.crawler.quit()
